@@ -1,5 +1,0 @@
-[gerrit]
-host=review.azure.can.cd
-port=29418
-project=apache2-windows.git
-defaultbranch=master
