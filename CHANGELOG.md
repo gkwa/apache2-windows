@@ -2,6 +2,14 @@
 
 This file is used to list changes made in each version of apache2_windows.
 
+## 1.0.0 (2017-02-28)
+
+- Require Chef 12.6+
+- Replaced windows_package with package, which works better and doesn't require the windows cookbook dependency
+- Added testing in Travis CI
+- Resolved all cookstyle warnings
+- Converted the virtual_host LWRP to a custom resource with proper update notification 
+
 ## 0.2.0:
 
 * First version of the rewritten cookbook.
