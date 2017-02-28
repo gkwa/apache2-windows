@@ -10,14 +10,14 @@ describe ApacheWindows::Helper do
         it 'returns an array' do
           s = %w(foo bar)
           t = ['baz']
-          described_class.uniquely_add_array(s, t).should == %w(foo bar baz)
+          expect(described_class.uniquely_add_array(s, t)).to eq(%w(foo bar baz))
         end
       end
       describe 'with conflicts' do
         it 'returns an array with duplicates removed' do
           s = %w(foo bar)
           t = %w(bar baz)
-          described_class.uniquely_add_array(s, t).should == %w(foo bar baz)
+          expect(described_class.uniquely_add_array(s, t)).to eq(%w(foo bar baz))
         end
       end
     end
@@ -27,14 +27,14 @@ describe ApacheWindows::Helper do
         it 'returns an array' do
           s = %w(foo bar)
           t = 'baz'
-          described_class.uniquely_add_array(s, t).should == %w(foo bar baz)
+          expect(described_class.uniquely_add_array(s, t)).to eq(%w(foo bar baz))
         end
       end
       describe 'with conflicts' do
         it 'returns an array with duplicates removed' do
           s = %w(foo bar)
           t = 'bar'
-          described_class.uniquely_add_array(s, t).should == %w(foo bar)
+          expect(described_class.uniquely_add_array(s, t)).to eq(%w(foo bar))
         end
       end
     end
