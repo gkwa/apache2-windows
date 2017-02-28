@@ -32,10 +32,10 @@ Just include `apache2_windows` in your node's `run_list`:
 License and Authors
 -------------------
 
-* Author:: Yvo Van Doorn (yvo@getchef.com)
+* Author:: Yvo Van Doorn (yvo@chef.io)
 * Author:: Chris McClimans (hh@hippiehacker.org)
-* Author:: Dan Robinson (dan@getchef.com)
-* Author:: Julian Dunn (jdunn@getchef.com)
+* Author:: Dan Robinson (dan@chef.io)
+* Author:: Julian Dunn (jdunn@chef.io)
 * Author:: James Francis (james@gnslngr.us)
 
 * Copyright (C) 2013-2014 Chef Software, Inc.

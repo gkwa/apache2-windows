@@ -2,7 +2,7 @@
 # Cookbook Name:: apache2_windows
 # Recipe:: default
 #
-# Copyright 2013, Opscode, Inc.
+# Copyright 2013-2017, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,9 +23,8 @@ unless node['platform_family'] == 'windows'
   raise Chef::Exceptions::Application, 'This cookbook only works on Microsoft Windows.'
 end
 
-windows_package node['apache']['windows']['display_name'] do
+package node['apache']['windows']['display_name'] do
   source node['apache']['windows']['source']
-  installer_type :msi
   # The latter four of these options are just to keep the Apache2 service
   # from failing before rendering the actual httpd.conf.
   options %W(
