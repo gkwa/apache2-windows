@@ -7,4 +7,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.2.0'
 
 supports         'windows'
-depends          'windows'
+
+source_url       'https://github.com/chef-cookbooks/apache2-windows'
+issues_url       'https://github.com/chef-cookbooks/apache2-windows/issues'
+chef_version     '>= 12.6' if respond_to?(:chef_version)
