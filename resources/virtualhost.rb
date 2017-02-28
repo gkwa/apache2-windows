@@ -3,7 +3,7 @@
 # Cookbook Name:: apache2_windows
 # Resource:: virtualhost
 #
-# Copyright:: 2013, Chef Software, Inc.
+# Copyright:: 2013-2017, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,17 +18,38 @@
 # limitations under the License.
 #
 
-actions :create, :delete
+property :server_name, String, name_property: true
+property :server_aliases, [Array, String]
+property :server_port, Integer, default: 80, required: true
+property :docroot, String, required: true
+property :directory_options, Array, default: ['FollowSymLinks']
+property :allow_overrides, Array, default: ['None']
+property :loglevel, String, equal_to: %w(emerg alert crit error warn notice info debug), default: 'info', required: true
+property :directory_index, [Array, String], default: 'index.html'
+property :template_cookbook, String, default: 'apache2_windows'
 
-attribute :server_name, kind_of: String, name_attribute: true
-attribute :server_aliases, kind_of: [Array, String]
-attribute :server_port, kind_of: Integer, default: 80, required: true
-attribute :docroot, kind_of: String, required: true
-attribute :directory_options, kind_of: Array, default: ['FollowSymLinks']
-attribute :allow_overrides, kind_of: Array, default: ['None']
-attribute :loglevel, kind_of: String, equal_to: %w(emerg alert crit error warn notice info debug), default: 'info', required: true
-attribute :directory_index, kind_of: [Array, String], default: 'index.html'
-attribute :template_cookbook, kind_of: String, default: 'apache2_windows'
-attribute :template_name, kind_of: String, default: 'virtualhost.conf.erb'
+action :create do
+  template "#{node['apache']['windows']['extra']['vhosts']['dir']}/#{new_resource.server_name}.conf" do
+    source new_resource.template_name
+    cookbook new_resource.template_cookbook
+    variables(
+      server_name: new_resource.server_name,
+      server_aliases: new_resource.server_aliases,
+      server_port: new_resource.server_port,
+      docroot: new_resource.docroot,
+      directory_options: new_resource.directory_options,
+      allow_overrides: new_resource.allow_overrides,
+      loglevel: new_resource.loglevel,
+      directory_index: new_resource.directory_index
+    )
+    action :create
+    notifies :restart, 'service[apache2]'
+  end
+end
 
-default_action :create
+action :delete do
+  file "#{node['apache']['windows']['extra']['vhosts']['dir']}/#{new_resource.server_name}.conf" do
+    action :delete
+    notifies :restart, 'service[apache2]'
+  end
+end
