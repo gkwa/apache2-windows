@@ -18,7 +18,7 @@
 #
 
 template "#{node['apache']['windows']['extras_dir']}/httpd-manual.conf" do
-  source "httpd-manual.conf.erb"
+  source 'httpd-manual.conf.erb'
   action :create
-  notifies :restart, "service[apache2]"
+  notifies :restart, 'service[apache2]'
 end

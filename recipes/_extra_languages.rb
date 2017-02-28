@@ -18,7 +18,7 @@
 #
 
 template "#{node['apache']['windows']['extras_dir']}/httpd-languages.conf" do
-  source "httpd-languages.conf.erb"
+  source 'httpd-languages.conf.erb'
   action :create
-  notifies :restart, "service[apache2]"
+  notifies :restart, 'service[apache2]'
 end

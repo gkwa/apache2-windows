@@ -18,7 +18,7 @@
 #
 
 template "#{node['apache']['windows']['extras_dir']}/httpd-userdir.conf" do
-  source "httpd-userdir.conf.erb"
+  source 'httpd-userdir.conf.erb'
   action :create
-  notifies :restart, "service[apache2]"
+  notifies :restart, 'service[apache2]'
 end

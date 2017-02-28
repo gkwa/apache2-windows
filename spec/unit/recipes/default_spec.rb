@@ -8,9 +8,9 @@ describe 'apache2_windows::default' do
     end
 
     it 'throws an exception' do
-      expect {
+      expect do
         chef_run
-      }.to raise_error(Chef::Exceptions::Application)
+      end.to raise_error(Chef::Exceptions::Application)
     end
   end
 
@@ -41,20 +41,20 @@ describe 'apache2_windows::default' do
     end
 
     it 'updates httpd.conf with a port' do
-      chef_run.node.set['apache']['windows']['listen_ports'] = %w[31337 666]
+      chef_run.node.set['apache']['windows']['listen_ports'] = %w(31337 666)
       chef_run.converge(described_recipe)
       expect(chef_run).to render_file('c:\temp\totallybogus.conf').with_content(/^Listen.*:31337$/)
       expect(chef_run).to render_file('c:\temp\totallybogus.conf').with_content(/^Listen.*:666$/)
     end
 
     it 'updates httpd.conf with bind addresses' do
-      chef_run.node.set['apache']['windows']['listen_ports'] = %w[5678]
-      chef_run.node.set['apache']['windows']['listen_addresses'] = %w[1.2.3.4]
+      chef_run.node.set['apache']['windows']['listen_ports'] = %w(5678)
+      chef_run.node.set['apache']['windows']['listen_addresses'] = %w(1.2.3.4)
       chef_run.converge(described_recipe)
       expect(chef_run).to render_file('c:\temp\totallybogus.conf').with_content(/^Listen 1.2.3.4:5678$/)
     end
 
-    %w{autoindex default info languages manual mpm multilang-errordoc ssl userdir vhosts}.each do |extra|
+    %w(autoindex default info languages manual mpm multilang-errordoc ssl userdir vhosts).each do |extra|
       describe "when including the #{extra} recipe" do
         before do
           chef_run.node.set['apache']['windows']['extras'] = [extra]
@@ -63,30 +63,30 @@ describe 'apache2_windows::default' do
           chef_run.converge(described_recipe)
         end
 
-        it "includes the recipe" do
+        it 'includes the recipe' do
           expect(chef_run).to include_recipe("apache2_windows::_extra_#{extra}")
         end
 
-        it "renders the extra config" do
+        it 'renders the extra config' do
           expect(chef_run).to render_file("c:\\foo/httpd-#{extra}.conf")
         end
 
-        it "updates the httpd.conf" do
+        it 'updates the httpd.conf' do
           expect(chef_run).to render_file('c:\temp\totallybogus.conf').with_content("Include conf/extra/httpd-#{extra}.conf")
         end
 
-        it "restarts httpd" do
+        it 'restarts httpd' do
           resource = chef_run.template('c:\temp\totallybogus.conf')
           expect(resource).to notify('service[apache2]').to(:restart)
         end
 
-        if extra == 'vhosts' then
-          it "creates the vhosts directory" do
+        if extra == 'vhosts'
+          it 'creates the vhosts directory' do
             expect(chef_run).to create_directory('c:\vhosts')
           end
-          it "includes the vhosts directory in the vhosts.conf" do
+          it 'includes the vhosts directory in the vhosts.conf' do
             # pending "doesn't work, need to investigate why"
-            expect(chef_run).to render_file("c:\\foo/httpd-vhosts.conf").with_content("Include \"c:\\vhosts/*.conf\"")
+            expect(chef_run).to render_file('c:\\foo/httpd-vhosts.conf').with_content('Include "c:\\vhosts/*.conf"')
           end
         end
       end

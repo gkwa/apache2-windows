@@ -18,7 +18,7 @@
 #
 
 template "#{node['apache']['windows']['extras_dir']}/httpd-multilang-errordoc.conf" do
-  source "httpd-multilang-errordoc.conf.erb"
+  source 'httpd-multilang-errordoc.conf.erb'
   action :create
-  notifies :restart, "service[apache2]"
+  notifies :restart, 'service[apache2]'
 end

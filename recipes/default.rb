@@ -20,7 +20,7 @@
 require 'chef/exceptions'
 
 unless node['platform_family'] == 'windows'
-  raise Chef::Exceptions::Application, "This cookbook only works on Microsoft Windows."
+  raise Chef::Exceptions::Application, 'This cookbook only works on Microsoft Windows.'
 end
 
 windows_package node['apache']['windows']['display_name'] do
@@ -28,20 +28,20 @@ windows_package node['apache']['windows']['display_name'] do
   installer_type :msi
   # The latter four of these options are just to keep the Apache2 service
   # from failing before rendering the actual httpd.conf.
-  options %W[
+  options %W(
     /quiet
     INSTALLDIR="#{node['apache']['windows']['dir']}"
     ALLUSERS=1
     SERVERADMIN=#{node['apache']['windows']['serveradmin']}
     SERVERDOMAIN=#{node['fqdn']}
     SERVERNAME=#{node['fqdn']}
-  ].join(' ')
+  ).join(' ')
 end
 
 template node['apache']['windows']['conf'] do
-  source "httpd.conf.erb"
+  source 'httpd.conf.erb'
   action :create
-  notifies :restart, "service[apache2]"
+  notifies :restart, 'service[apache2]'
 end
 
 node['apache']['windows']['extras'].each do |extra|
@@ -49,7 +49,7 @@ node['apache']['windows']['extras'].each do |extra|
 end
 
 # Start apache service
-service "apache2" do
+service 'apache2' do
   service_name "Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
-  action [ :enable, :start ]
+  action [:enable, :start]
 end

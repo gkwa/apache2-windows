@@ -21,16 +21,14 @@
 
 module ApacheWindows
   class Helper
-
     def self.uniquely_add_array(source, target)
-
       case target
-        when Array
-          target.each do |e|
-            uniquely_add_array(source, e)
-          end
-        else
-          source << target unless source.find_index(target)
+      when Array
+        target.each do |e|
+          uniquely_add_array(source, e)
+        end
+      else
+        source << target unless source.find_index(target)
       end
       source
     end

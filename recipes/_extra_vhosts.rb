@@ -18,9 +18,9 @@
 #
 
 template "#{node['apache']['windows']['extras_dir']}/httpd-vhosts.conf" do
-  source "httpd-vhosts.conf.erb"
+  source 'httpd-vhosts.conf.erb'
   action :create
-  notifies :restart, "service[apache2]"
+  notifies :restart, 'service[apache2]'
 end
 
 directory node['apache']['windows']['extra']['vhosts']['dir'] do

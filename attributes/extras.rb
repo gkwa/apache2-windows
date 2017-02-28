@@ -21,33 +21,33 @@ default['apache']['windows']['extra']['mpm']['winnt']['threadsperchild']     = 1
 default['apache']['windows']['extra']['mpm']['winnt']['maxrequestsperchild'] = 0
 
 if node['apache']['windows']['extras'].include?('multilang-errordoc')
-  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], ['alias', 'include', 'negotiation'])
+  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], %w(alias include negotiation))
 end
-default['apache']['windows']['extra']['multilang-errordoc']['languagepriority'] = %w{en cs de es fr it ja ko nl pl pt-br ro sv tr}
+default['apache']['windows']['extra']['multilang-errordoc']['languagepriority'] = %w(en cs de es fr it ja ko nl pl pt-br ro sv tr)
 
 if node['apache']['windows']['extras'].include?('languages')
-  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], ['mime', 'negotiation'])
+  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], %w(mime negotiation))
 end
-default['apache']['windows']['extra']['languages']['languagepriority'] = %w{en ca cs da de el eo es et fr he hr it ja ko ltz nl nn no pl pt pt-BR ru sv tr zh-CN zh-TW}
+default['apache']['windows']['extra']['languages']['languagepriority'] = %w(en ca cs da de el eo es et fr he hr it ja ko ltz nl nn no pl pt pt-BR ru sv tr zh-CN zh-TW)
 
 if node['apache']['windows']['extras'].include?('userdir')
   ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], 'userdir')
 end
 default['apache']['windows']['extra']['userdir']['home'] = 'My Documents/My Website'
-default['apache']['windows']['extra']['userdir']['allowoverride'] = %w{FileInfo AuthConfig Limit Indexes}
-default['apache']['windows']['extra']['userdir']['options'] = %w{MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec}
+default['apache']['windows']['extra']['userdir']['allowoverride'] = %w(FileInfo AuthConfig Limit Indexes)
+default['apache']['windows']['extra']['userdir']['options'] = %w(MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec)
 
 if node['apache']['windows']['extras'].include?('info')
-  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], ['status', 'info'])
+  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], %w(status info))
 end
 default['apache']['windows']['extra']['info']['serverstatus']['enabled'] = true
-default['apache']['windows']['extra']['info']['serverstatus']['allowfrom'] = [ 'localhost', '127.0.0.1', node['fqdn'].downcase ]
+default['apache']['windows']['extra']['info']['serverstatus']['allowfrom'] = ['localhost', '127.0.0.1', node['fqdn'].downcase]
 default['apache']['windows']['extra']['info']['serverinfo']['enabled'] = true
-default['apache']['windows']['extra']['info']['serverinfo']['allowfrom'] = [ 'localhost', '127.0.0.1', node['fqdn'].downcase ]
+default['apache']['windows']['extra']['info']['serverinfo']['allowfrom'] = ['localhost', '127.0.0.1', node['fqdn'].downcase]
 default['apache']['windows']['extra']['info']['extendedstatus'] = false
 
 if node['apache']['windows']['extras'].include?('manual')
-  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], ['alias', 'setenvif', 'negotiation'])
+  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], %w(alias setenvif negotiation))
 end
 
 default['apache']['windows']['extra']['default']['timeout'] = 300
