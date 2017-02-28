@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: apache2_windows
+# Cookbook Name:: apache2-windows
 # Recipe:: _extra_manual
 #
 # Copyright 2013, Opscode, Inc.

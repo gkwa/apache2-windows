@@ -1,10 +1,10 @@
 require 'chef/exceptions'
 require 'spec_helper'
 
-describe 'apache2_windows::default' do
+describe 'apache2-windows::default' do
   describe 'when run on Linux' do
     let (:chef_run) do
-      ChefSpec::Runner.new(platform: 'centos', version: '6.4').converge(described_recipe)
+      ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8').converge(described_recipe)
     end
 
     it 'throws an exception' do
@@ -16,7 +16,7 @@ describe 'apache2_windows::default' do
 
   describe 'when run on Windows' do
     let (:chef_run) do
-      ChefSpec::Runner.new(platform: 'windows', version: '2008R2')
+      ChefSpec::ServerRunner.new(platform: 'windows', version: '2008R2')
     end
 
     before do
@@ -64,7 +64,7 @@ describe 'apache2_windows::default' do
         end
 
         it 'includes the recipe' do
-          expect(chef_run).to include_recipe("apache2_windows::_extra_#{extra}")
+          expect(chef_run).to include_recipe("apache2-windows::_extra_#{extra}")
         end
 
         it 'renders the extra config' do

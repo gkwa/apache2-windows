@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: apache2_windows
+# Cookbook Name:: apache2-windows
 # Recipe:: default
 #
 # Copyright 2013-2017, Chef Software, Inc.
@@ -44,7 +44,7 @@ template node['apache']['windows']['conf'] do
 end
 
 node['apache']['windows']['extras'].each do |extra|
-  include_recipe "apache2_windows::_extra_#{extra}"
+  include_recipe "apache2-windows::_extra_#{extra}"
 end
 
 # Start apache service

@@ -19,15 +19,15 @@ Installs and configures Apache 2 on Windows.
 
 ## Usage
 
-### apache2_windows::default
+### apache2-windows::default
 
-Just include `apache2_windows` in your node's `run_list`:
+Just include `apache2-windows` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[apache2_windows]"
+    "recipe[apache2-windows]"
   ]
 }
 ```

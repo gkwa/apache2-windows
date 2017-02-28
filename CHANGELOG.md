@@ -1,6 +1,6 @@
-# CHANGELOG for apache2_windows
+# CHANGELOG for apache2-windows
 
-This file is used to list changes made in each version of apache2_windows.
+This file is used to list changes made in each version of apache2-windows.
 
 ## 1.0.0 (2017-02-28)
 
@@ -20,7 +20,7 @@ This file is used to list changes made in each version of apache2_windows.
 
 ## 0.1.0:
 
-* Initial release of apache2_windows
+* Initial release of apache2-windows
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.

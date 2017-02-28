@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: apache2_windows
+# Cookbook Name:: apache2-windows
 # Recipe:: default
 #
 # Copyright 2013, Chef Software, Inc.

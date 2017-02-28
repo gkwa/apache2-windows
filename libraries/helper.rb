@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: apache2_windows
+# Cookbook Name:: apache2-windows
 # Library:: helper
 #
 # Author:: Julian C. Dunn <jdunn@chef.io>

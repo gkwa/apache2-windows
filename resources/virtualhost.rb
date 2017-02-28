@@ -1,6 +1,6 @@
 #
 # Author:: Julian C. Dunn (<jdunn@chef.io>)
-# Cookbook Name:: apache2_windows
+# Cookbook Name:: apache2-windows
 # Resource:: virtualhost
 #
 # Copyright:: 2013-2017, Chef Software, Inc.
@@ -26,7 +26,7 @@ property :directory_options, Array, default: ['FollowSymLinks']
 property :allow_overrides, Array, default: ['None']
 property :loglevel, String, equal_to: %w(emerg alert crit error warn notice info debug), default: 'info', required: true
 property :directory_index, [Array, String], default: 'index.html'
-property :template_cookbook, String, default: 'apache2_windows'
+property :template_cookbook, String, default: 'apache2-windows'
 
 action :create do
   template "#{node['apache']['windows']['extra']['vhosts']['dir']}/#{new_resource.server_name}.conf" do
