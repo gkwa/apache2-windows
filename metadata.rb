@@ -1,7 +1,7 @@
 name             'apache2-windows'
 maintainer       'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
-license          'Apache 2.0'
+license          'Apache-2.0'
 description      'Installs and configures Apache on Microsoft Windows platforms.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.0.0'
