@@ -1,6 +1,6 @@
 #
 # Author:: Julian C. Dunn (<jdunn@chef.io>)
-# Cookbook Name:: apache2-windows
+# Cookbook:: apache2-windows
 # Resource:: virtualhost
 #
 # Copyright:: 2013-2017, Chef Software, Inc.
