@@ -7,6 +7,9 @@ driver:
   username: <%= ENV["machine_user"] %>
   password: <%= ENV["machine_pass"] %>
 
+verifier:
+  name: inspec
+
 provisioner:
   name: chef_zero
   deprecations_as_errors: true
@@ -17,4 +20,4 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[apache2-windows::default]
+      - recipe[test::default]
