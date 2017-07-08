@@ -45,7 +45,7 @@ default['apache']['windows']['pid_file']        = "#{node['apache']['windows']['
 default['apache']['windows']['lib_dir']         = "#{node['apache']['windows']['dir']}/modules"
 default['apache']['windows']['libexecdir']      = node['apache']['windows']['lib_dir']
 default['apache']['windows']['serveradmin']     = "admin@#{node['fqdn']}"
-default['apache']['windows']['default_modules'] = %w( actions alias asis auth_basic authn_default authn_file authz_default authz_groupfile authz_host authz_user autoindex cgi dir env include isapi log_config mime negotiation setenvif )
+default['apache']['windows']['default_modules'] = %w(actions alias asis auth_basic authn_default authn_file authz_default authz_groupfile authz_host authz_user autoindex cgi dir env include isapi log_config mime negotiation setenvif)
 
 # General settings
 default['apache']['windows']['listen_ports']      = %w(80)
