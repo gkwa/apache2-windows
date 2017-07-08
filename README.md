@@ -1,6 +1,6 @@
 # Chef Cookbook for Apache 2 on Windows
 
-[![Build Status](https://travis-ci.org/chef-cookbooks/apache2-windows.svg?branch=master)](http://travis-ci.org/chef-cookbooks/apache2-windows) [![Cookbook Version](https://img.shields.io/cookbook/v/apache2-windows.svg)](https://supermarket.chef.io/cookbooks/apache2-windows)
+[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/TaylorMonacelli/apache2-windows?svg=true&passingText=passing&failingText=failing&pendingText=pending)](https://ci.appveyor.com/project/TaylorMonacelli/apache2-windows)
 
 Installs and configures Apache 2 on Windows.
 
