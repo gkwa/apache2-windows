@@ -5,3 +5,11 @@ apache2_windows_virtualhost 'server1' do
   allow_overrides ['all']
   loglevel 'debug'
 end
+
+apache2_windows_virtualhost 'server2' do
+  template_cookbook 'test'
+  template 'site.erb'
+  docroot 'c:\Program Files (x86)\Apache Software Foundation\Apache2.2\htdocs'
+  allow_overrides ['all']
+  loglevel 'debug'
+end
