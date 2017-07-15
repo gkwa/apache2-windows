@@ -26,11 +26,15 @@ property :directory_options, Array, default: ['FollowSymLinks']
 property :allow_overrides, Array, default: ['None']
 property :loglevel, String, equal_to: %w(emerg alert crit error warn notice info debug), default: 'info', required: true
 property :directory_index, [Array, String], default: 'index.html'
+property :template, [String, Array], default: 'virtualhost.conf.erb'
+property :cookbook, String
+property :variables, Hash, default: {}
 property :template_cookbook, String, default: 'apache2-windows'
 
 action :create do
-  template "#{node['apache']['windows']['extra']['vhosts']['dir']}/#{new_resource.server_name}.conf" do
-    source new_resource.template_name
+  # use declare_resource so we can have a property also named template
+  declare_resource(:template, "#{node['apache']['windows']['extra']['vhosts']['dir']}/#{new_resource.server_name}.conf") do
+    source new_resource.template
     cookbook new_resource.template_cookbook
     variables(
       server_name: new_resource.server_name,
@@ -42,7 +46,6 @@ action :create do
       loglevel: new_resource.loglevel,
       directory_index: new_resource.directory_index
     )
-    action :create
     notifies :restart, 'service[apache2]'
   end
 end
