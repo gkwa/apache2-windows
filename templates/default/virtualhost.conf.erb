@@ -7,7 +7,7 @@
   ServerAlias <%= @server_aliases %>
     <% end -%>
   <% end -%>
-  DocumentRoot <%= @docroot %>
+  DocumentRoot "<%= @docroot %>"
 
   <Directory />
     Options FollowSymLinks
