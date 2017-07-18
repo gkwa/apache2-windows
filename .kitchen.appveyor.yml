@@ -21,8 +21,3 @@ suites:
   - name: default
     run_list:
       - recipe[test::default]
-    attributes:
-      apache:
-        windows:
-          extras:
-            - vhosts

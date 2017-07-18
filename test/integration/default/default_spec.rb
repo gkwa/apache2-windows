@@ -6,13 +6,3 @@ describe command('cmd /c "c:\Program Files (x86)\Apache Software Foundation\Apac
   its('exit_status') { should eq 0 }
   its('stdout') { should match %r{Server version: Apache/2.4.27} }
 end
-
-describe file('c:\Program Files (x86)\Apache Software Foundation\Apache2.4\vhosts.d\server1.conf') do
-  it { should exist }
-  its(:content) { should match(/ServerName server1/) }
-end
-
-describe file('c:\Program Files (x86)\Apache Software Foundation\Apache2.4\vhosts.d\server2.conf') do
-  it { should exist }
-  its(:content) { should match(/ServerName server2/) }
-end
