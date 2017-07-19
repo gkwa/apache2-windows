@@ -6,3 +6,8 @@ describe command('cmd /c "c:\Program Files (x86)\Apache Software Foundation\Apac
   its('exit_status') { should eq 0 }
   its('stdout') { should match %r{Server version: Apache/2.4.27} }
 end
+
+describe http('http://localhost') do
+  its('status') { should eq 200 }
+  its('body') { should eq "<html><body><h1>It works!</h1></body></html>\r\n" }
+end
