@@ -16,3 +16,8 @@ describe file('c:\Program Files (x86)\Apache Software Foundation\Apache2.4\vhost
   it { should exist }
   its(:content) { should match(/ServerName server1/) }
 end
+
+describe file('c:\Program Files (x86)\Apache Software Foundation\Apache2.4\vhosts.d\server2.conf') do
+  it { should exist }
+  its(:content) { should match(/ServerName server2/) }
+end
