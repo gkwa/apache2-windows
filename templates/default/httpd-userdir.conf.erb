@@ -13,9 +13,14 @@ UserDir "My Documents/My Website"
 # Control access to UserDir directories.  The following is an example
 # for a site where these directories are restricted to read-only.
 #
-<Directory "C:/Users/*/My Documents/My Website">
-    AllowOverride FileInfo AuthConfig Limit Indexes
-    Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
-    Require method GET POST OPTIONS
+<Directory "C:/Users/*/<%= node['apache']['windows']['extra']['userdir']['home'] %>">
+    AllowOverride <%= node['apache']['windows']['extra']['userdir']['allowoverride'].join(' ') %>
+    Options <%= node['apache']['windows']['extra']['userdir']['options'].join(' ') %>
+    <Limit GET POST OPTIONS>
+        Require all granted
+    </Limit>
+    <LimitExcept GET POST OPTIONS>
+        Require all denied
+    </LimitExcept>
 </Directory>
 
