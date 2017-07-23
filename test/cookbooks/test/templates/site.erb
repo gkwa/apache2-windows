@@ -12,15 +12,13 @@
   <Directory />
     Options FollowSymLinks
     AllowOverride None
-    Order deny,allow
-    Deny from all
+    Require all denied
   </Directory>
 
   <Directory "<%= @docroot %>">
     Options <%= @directory_options.flatten.join(' ') %>
     AllowOverride <%= @allow_overrides.flatten.join(' ') %>
-    Order allow,deny
-    Allow from all
+    Require all granted
   </Directory>
 
   LogLevel <%= @loglevel %>
