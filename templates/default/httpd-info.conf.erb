@@ -2,8 +2,9 @@
 # Get information about the requests being processed by the server
 # and the configuration of the server.
 #
-# Required modules: mod_status (for the server-status handler),
-#                   mod_info (for the server-info handler)
+# Required modules: mod_authz_core, mod_authz_host,
+#                   mod_info (for the server-info handler),
+#                   mod_status (for the server-status handler)
 
 <% if node['apache']['windows']['extra']['info']['serverstatus']['enabled'] -%>
 #
@@ -32,7 +33,7 @@ ExtendedStatus On
 #
 # Allow remote server configuration reports, with the URL of
 #  http://servername/server-info (requires that mod_info.c be loaded).
-# Change the ".compute-1.internal" to match your domain to enable.
+# Change the ".example.com" to match your domain to enable.
 #
 <Location /server-info>
     SetHandler server-info
