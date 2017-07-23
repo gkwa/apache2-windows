@@ -24,3 +24,4 @@
 NameVirtualHost *:<%= p %>
 <% end -%>
 
+IncludeOptional "<%= node['apache']['windows']['extra']['vhosts']['dir'] %>/*.conf"

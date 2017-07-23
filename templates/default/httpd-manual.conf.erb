@@ -8,9 +8,9 @@
 #                   mod_setenvif, mod_negotiation
 #
 
-AliasMatch ^/manual(?:/(?:da|de|en|es|fr|ja|ko|pt-br|ru|tr|zh-cn))?(/.*)?$ "c:/Apache24/manual$1"
+AliasMatch ^/manual(?:/(?:de|en|es|fr|ja|ko|pt-br|ru|tr))?(/.*)?$ "<%= node['apache']['windows']['dir'] %>/manual$1"
 
-<Directory "c:/Apache24/manual">
+<Directory "<%= node['apache']['windows']['dir'] %>/manual">
     Options Indexes
     AllowOverride None
     Require all granted
