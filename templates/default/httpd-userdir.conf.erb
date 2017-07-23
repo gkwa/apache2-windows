@@ -17,12 +17,10 @@ UserDir "My Documents/My Website"
     AllowOverride <%= node['apache']['windows']['extra']['userdir']['allowoverride'].join(' ') %>
     Options <%= node['apache']['windows']['extra']['userdir']['options'].join(' ') %>
     <Limit GET POST OPTIONS>
-        Order allow,deny
-        Allow from all
+        Require all granted
     </Limit>
     <LimitExcept GET POST OPTIONS>
-        Order deny,allow
-        Deny from all
+        Require all denied
     </LimitExcept>
 </Directory>
 
