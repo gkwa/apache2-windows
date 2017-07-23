@@ -7,26 +7,26 @@
 #
 # Timeout: The number of seconds before receives and sends time out.
 #
-Timeout <%= node['apache']['windows']['extra']['default']['timeout'] %>
+Timeout 60
 
 #
 # KeepAlive: Whether or not to allow persistent connections (more than
 # one request per connection). Set to "Off" to deactivate.
 #
-KeepAlive <%= node['apache']['windows']['extra']['default']['keepalive'] %>
+KeepAlive On
 
 #
 # MaxKeepAliveRequests: The maximum number of requests to allow
 # during a persistent connection. Set to 0 to allow an unlimited amount.
 # We recommend you leave this number high, for maximum performance.
 #
-MaxKeepAliveRequests <%= node['apache']['windows']['extra']['default']['maxkeepaliverequests'] %>
+MaxKeepAliveRequests 100
 
 #
 # KeepAliveTimeout: Number of seconds to wait for the next request from the
 # same client on the same connection.
 #
-KeepAliveTimeout <%= node['apache']['windows']['extra']['default']['keepalivetimeout'] %>
+KeepAliveTimeout 5
 
 #
 # UseCanonicalName: Determines how Apache constructs self-referencing 
@@ -35,14 +35,14 @@ KeepAliveTimeout <%= node['apache']['windows']['extra']['default']['keepalivetim
 # by the client.  When set "On", Apache will use the value of the
 # ServerName directive.
 #
-UseCanonicalName <%= node['apache']['windows']['extra']['default']['usecanonicalname'] %>
+UseCanonicalName Off
 
 #
 # AccessFileName: The name of the file to look for in each directory
 # for additional configuration directives.  See also the AllowOverride 
 # directive.
 #
-AccessFileName <%= node['apache']['windows']['extra']['default']['accessfilename'] %>
+AccessFileName .htaccess
 
 #
 # ServerTokens
@@ -52,7 +52,7 @@ AccessFileName <%= node['apache']['windows']['extra']['default']['accessfilename
 # Set to one of:  Full | OS | Minor | Minimal | Major | Prod
 # where Full conveys the most information, and Prod the least.
 #
-ServerTokens <%= node['apache']['windows']['extra']['default']['servertokens'] %>
+ServerTokens Full
 
 #
 # Optionally add a line containing the server version and virtual host
@@ -62,7 +62,7 @@ ServerTokens <%= node['apache']['windows']['extra']['default']['servertokens'] %
 # Set to "EMail" to also include a mailto: link to the ServerAdmin.
 # Set to one of:  On | Off | EMail
 #
-ServerSignature <%= node['apache']['windows']['extra']['default']['serversignature'] %>
+ServerSignature Off
 
 #
 # HostnameLookups: Log the names of clients or just their IP addresses
@@ -72,4 +72,19 @@ ServerSignature <%= node['apache']['windows']['extra']['default']['serversignatu
 # each client request will result in AT LEAST one lookup request to the
 # nameserver.
 #
-HostnameLookups <%= node['apache']['windows']['extra']['default']['hostnamelookups'] %>
+HostnameLookups Off
+
+#
+# Set a timeout for how long the client may take to send the request header
+# and body.
+# The default for the headers is header=20-40,MinRate=500, which means wait
+# for the first byte of headers for 20 seconds. If some data arrives,
+# increase the timeout corresponding to a data rate of 500 bytes/s, but not
+# above 40 seconds.
+# The default for the request body is body=20,MinRate=500, which is the same
+# but has no upper limit for the timeout.
+# To disable, set to header=0 body=0
+#
+<IfModule reqtimeout_module>
+  RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
+</IfModule>
