@@ -103,7 +103,7 @@
 # ThreadsPerChild: constant number of worker threads in the server process
 # MaxConnectionsPerChild: maximum number of connections a server process serves
 <IfModule mpm_winnt_module>
-    ThreadsPerChild      <%= node['apache']['windows']['extra']['mpm']['winnt']['threadsperchild'] %>
-    MaxRequestsPerChild  <%= node['apache']['windows']['extra']['mpm']['winnt']['maxrequestsperchild'] %>
+    ThreadsPerChild        150
+    MaxConnectionsPerChild   0
 </IfModule>
 
