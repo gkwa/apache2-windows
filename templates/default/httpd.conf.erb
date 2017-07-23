@@ -267,7 +267,7 @@ LogLevel warn
 </IfModule>
 
 #
-# "c:/Apache24/cgi-bin" should be changed to whatever your ScriptAliased
+# "<%= node['apache']['windows']['cgibin_dir'] %>" should be changed to whatever your ScriptAliased
 # CGI directory exists, if you have that configured.
 #
 <Directory "<%= node['apache']['windows']['cgibin_dir'] %>/">

@@ -15,7 +15,7 @@
 #   Alias /error/include/ "/your/include/path/"
 #
 # which allows you to create your own set of files by starting with the
-# c:/Apache24/error/include/ files and copying them to /your/include/path/, 
+# <%= node['apache']['windows']['dir'] %>/error/include/ files and copying them to /your/include/path/,
 # even on a per-VirtualHost basis.  The default include files will display
 # your Apache version number and your ServerAdmin email address regardless
 # of the setting of ServerSignature.
