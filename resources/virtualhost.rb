@@ -30,6 +30,7 @@ property :template, [String, Array], default: 'virtualhost.conf.erb'
 property :cookbook, String
 property :variables, Hash, default: {}
 property :template_cookbook, String, default: 'apache2-windows'
+property :admin, String, default: node['apache']['windows']['serveradmin']
 
 action :create do
   # use declare_resource so we can have a property also named template
@@ -44,6 +45,7 @@ action :create do
       directory_options: new_resource.directory_options,
       allow_overrides: new_resource.allow_overrides,
       loglevel: new_resource.loglevel,
+      admin: new_resource.admin,
       directory_index: new_resource.directory_index
     )
     notifies :restart, 'service[apache2]'

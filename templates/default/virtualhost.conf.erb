@@ -1,5 +1,6 @@
 <VirtualHost *:<%= @vhost_port || node['apache']['windows']['listen_ports'].first %>>
   ServerName <%= @server_name %>
+  ServerAdmin <%= @admin %>
   <% if @server_aliases -%>
     <% if @server_aliases.class == Array -%>
   ServerAlias <% @server_aliases.each do |a| %><%= a %> <% end %>

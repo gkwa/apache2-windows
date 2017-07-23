@@ -12,4 +12,5 @@ apache2_windows_virtualhost 'server2' do
   docroot 'c:\Program Files (x86)\Apache Software Foundation\Apache2.4\htdocs'
   allow_overrides ['all']
   loglevel 'debug'
+  admin 'admin@server2.com'
 end
