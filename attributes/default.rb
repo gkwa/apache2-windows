@@ -18,11 +18,7 @@
 #
 
 default['apache']['windows']['version']         = '2.4.27'
-default['apache']['windows']['dir']             = if ENV['PROGRAMFILES(x86)']
-                                                    "#{ENV['PROGRAMFILES(x86)']}\\Apache Software Foundation\\Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
-                                                  else
-                                                    "#{ENV['PROGRAMFILES']}\\Apache Software Foundation\\Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
-                                                  end
+default['apache']['windows']['dir']             = "#{ENV['PROGRAMFILES']}\\Apache Software Foundation\\Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
 default['apache']['windows']['bin_dir']         = "#{node['apache']['windows']['dir']}/bin"
 default['apache']['windows']['conf_dir']        = "#{node['apache']['windows']['dir']}/conf.d"
 default['apache']['windows']['display_name']    = "Apache HTTP Server #{node['apache']['windows']['version']}"
