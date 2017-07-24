@@ -17,6 +17,23 @@
 # limitations under the License.
 #
 
+directory node['apache']['windows']['ssl_dir'] do
+  recursive true
+end
+
+powershell_script 'Create self signed ssl certificate' do
+  code <<-EOH
+  $ec = $error.count
+  & "#{node['apache']['windows']['bin_dir']}/openssl.exe" req -nodes -x509 -newkey rsa:4096 `
+    -keyout "#{node['apache']['windows']['ssl_dir']}/server.key" `
+    -out "#{node['apache']['windows']['ssl_dir']}/server.crt" -days 365 `
+    -subj '/C=US/ST=State/O=Company/OU=Department/CN=www.example.com/emailAddress=admin@example.com'
+  if ($ec -ne $error.count) {
+        $error.removeAt(0)
+  }
+  EOH
+end
+
 template "#{node['apache']['windows']['extras_dir']}/httpd-ssl.conf" do
   source 'httpd-ssl.conf.erb'
   action :create

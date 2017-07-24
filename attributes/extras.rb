@@ -64,7 +64,7 @@ if node['apache']['windows']['extras'].include?('ssl')
   unless node['apache']['windows']['listen_ports'].include?('443')
     default['apache']['windows']['listen_ports'] = node['apache']['windows']['listen_ports'] + ['443']
   end
-  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], ['ssl'])
+  ApacheWindows::Helper.uniquely_add_array(default['apache']['windows']['default_modules'], %w(ssl socache_shmcb))
 end
 
 default['apache']['windows']['extra']['ssl']['passphrase_dialog'] = 'builtin'

@@ -26,3 +26,4 @@ suites:
         windows:
           extras:
             - vhosts
+            - ssl

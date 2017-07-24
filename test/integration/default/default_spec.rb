@@ -12,6 +12,11 @@ describe http('http://localhost') do
   its('body') { should match(/It works!/) }
 end
 
+describe http('https://localhost', ssl_verify: false) do
+  its('status') { should eq 200 }
+  its('body') { should match(/It works!/) }
+end
+
 describe file('c:\Program Files\Apache Software Foundation\Apache2.4\vhosts.d\server1.conf') do
   it { should exist }
   its(:content) { should match(/ServerName server1/) }
