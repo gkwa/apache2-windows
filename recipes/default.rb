@@ -59,7 +59,7 @@ template node['apache']['windows']['conf'] do
   notifies :restart, 'service[apache2]'
 end
 
-powershell_script "Install Apache service" do
+powershell_script 'Install Apache service' do
   code <<-EOH
   & "#{node['apache']['windows']['bin_dir']}\\httpd.exe" -k install -n "Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
   # install service is success message is sent to stderr
