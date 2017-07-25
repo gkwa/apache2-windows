@@ -18,11 +18,20 @@
 #
 
 default['apache']['windows']['version']         = '2.4.27'
+default['apache']['windows']['x86_override']    = false # if true, then i want 32bit apache on 64bit machine
 default['apache']['windows']['dir']             = "#{ENV['PROGRAMFILES']}/Apache Software Foundation/Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
+default['apache']['windows']['package_name']    = "httpd-#{node['apache']['windows']['version']}-Win32-VC14.zip"
+case node['kernel']['machine']
+when 'x86_64'
+  if node['apache']['windows']['x86_override']
+    default['apache']['windows']['dir'] = "#{ENV['PROGRAMFILES(x86)']}/Apache Software Foundation/Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
+  else
+    default['apache']['windows']['package_name'] = "httpd-#{node['apache']['windows']['version']}-Win64-VC14.zip"
+  end
+end
 default['apache']['windows']['bin_dir']         = "#{node['apache']['windows']['dir']}/bin"
 default['apache']['windows']['conf_dir']        = "#{node['apache']['windows']['dir']}/conf.d"
 default['apache']['windows']['display_name']    = "Apache HTTP Server #{node['apache']['windows']['version']}"
-default['apache']['windows']['package_name']    = "httpd-#{node['apache']['windows']['version']}-Win64-VC14.zip"
 default['apache']['windows']['source']          = "https://www.apachelounge.com/download/VC14/binaries/#{node['apache']['windows']['package_name']}"
 default['apache']['windows']['log_dir']         = 'logs' # relative to ServerRoot
 default['apache']['windows']['error_log']       = 'error.log'
