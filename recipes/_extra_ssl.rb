@@ -22,16 +22,15 @@ directory node['apache']['windows']['ssl_dir'] do
 end
 
 powershell_script 'Create self signed ssl certificate' do
+  cwd node['apache']['windows']['dir']
   code <<-EOH
-  $ec = $error.count
   & "#{node['apache']['windows']['bin_dir']}/openssl.exe" req -nodes -x509 -newkey rsa:4096 `
     -keyout "#{node['apache']['windows']['ssl_dir']}/server.key" `
     -out "#{node['apache']['windows']['ssl_dir']}/server.crt" -days 365 `
+    -config conf/openssl.cnf `
     -subj '/C=US/ST=State/O=Company/OU=Department/CN=www.example.com/emailAddress=admin@example.com'
-  if ($ec -ne $error.count) {
-        $error.removeAt(0)
-  }
   EOH
+  returns [0, 1]
 end
 
 template "#{node['apache']['windows']['extras_dir']}/httpd-ssl.conf" do
