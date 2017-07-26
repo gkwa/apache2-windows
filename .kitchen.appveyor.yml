@@ -18,6 +18,9 @@ platforms:
   - name: windows-2012R2
 
 suites:
+  - name: apache2_config
+    run_list:
+      - recipe[test::apache2_config]
   - name: 64bit_apache
     run_list:
       - recipe[test::default]
