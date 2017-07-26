@@ -31,7 +31,7 @@ remote_file zipfile do
   source node['apache']['windows']['source']
 end
 
-powershell_script "Download and extract #{node['apache']['windows']['package_name']}" do
+powershell_script "Extract and install #{node['apache']['windows']['package_name']}" do
   code <<-EOH
   $subdir = [System.Guid]::NewGuid()
   $outpath="$env:temp\\$subdir"
