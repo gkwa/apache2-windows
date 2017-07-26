@@ -7,7 +7,7 @@ apache2_windows_virtualhost 'server1' do
 end
 
 apache2_windows_virtualhost 'server2' do
-  template_cookbook 'test'
+  cookbook 'test'
   template 'site.erb'
   docroot "#{node['apache']['windows']['dir']}/htdocs"
   allow_overrides ['all']
