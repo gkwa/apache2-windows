@@ -33,8 +33,7 @@ end
 
 powershell_script "Extract and install #{node['apache']['windows']['package_name']}" do
   code <<-EOH
-  $subdir = [System.Guid]::NewGuid()
-  $outpath="$env:temp\\$subdir"
+  $outpath = [io.path]::GetFileNameWithoutExtension("#{zipfile}")
   Add-Type -assemblyname System.IO.Compression.FileSystem
   [System.IO.Compression.ZipFile]::ExtractToDirectory("#{zipfile}", $outpath)
   $verconcat = #{node['apache']['windows']['version'].split('.')[0..1].join('')}
