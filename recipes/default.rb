@@ -64,7 +64,7 @@ end
 
 powershell_script 'Install Apache service' do
   code <<-EOH
-  & "#{node['apache']['windows']['bin_dir']}\\httpd.exe" -k install -n "Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
+  & "#{node['apache']['windows']['bin_dir']}\\httpd.exe" -k install -n "#{node['apache']['windows']['service']}"
   # install service is success message is sent to stderr
   if ($error[0] | Select-String 'service is successfully installed') {
         $error.removeAt(0)
@@ -78,6 +78,6 @@ end
 
 # Start apache service
 service 'apache2' do
-  service_name "Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
+  service_name node['apache']['windows']['service']
   action [:enable, :start]
 end
