@@ -26,10 +26,10 @@ build_script:
   - ps: c:\opscode\chefdk\bin\chef.bat shell-init powershell | iex; cmd /c c:\opscode\chefdk\bin\chef.bat --version
 
 test_script:
+  - c:\opscode\chefdk\bin\chef.bat exec kitchen verify apache2-config-windows-2012R2
+  - ps: Get-Service | Where-Object { $_.DisplayName -Like '*apache*' -And $_.Status -Eq 'Running'} | Stop-Service
   - c:\opscode\chefdk\bin\chef.bat exec kitchen verify 64bit-apache-windows-2012R2
   - ps: Get-Service | Where-Object { $_.DisplayName -Like '*apache*' -And $_.Status -Eq 'Running'} | Stop-Service
   - c:\opscode\chefdk\bin\chef.bat exec kitchen verify x86-apache-windows-2012R2
-  - ps: Get-Service | Where-Object { $_.DisplayName -Like '*apache*' -And $_.Status -Eq 'Running'} | Stop-Service
-  - c:\opscode\chefdk\bin\chef.bat exec kitchen verify apache2-config-windows-2012R2
 
 deploy: off
