@@ -56,6 +56,9 @@ execute "Extract and install #{node['apache']['windows']['package_name']}" do
   end
 end
 
+# IncludeOptional conf.d/*.conf won't work if conf.d directory doesn't exist
+directory node['apache']['windows']['conf_dir'] if node['apache']['windows']['conf_dir_include']
+
 template node['apache']['windows']['conf'] do
   source 'httpd.conf.erb'
   action :create

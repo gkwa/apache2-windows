@@ -442,3 +442,8 @@ Include conf/extra/httpd-ssl.conf
 SSLRandomSeed startup builtin
 SSLRandomSeed connect builtin
 </IfModule>
+
+<% if node['apache']['windows']['conf_dir_include'] -%>
+# Add user settings
+IncludeOptional "<%= node['apache']['windows']['conf_dir'] %>/*.conf"
+<% end -%>

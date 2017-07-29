@@ -82,3 +82,5 @@ default['apache']['windows']['listen_addresses']  = %w(*)
 # Extras to enable -- these correspond with the extras files that come out of the box
 # Supported 'extras': autoindex, mpm, languages, userdir, info, manual, default, ssl
 default['apache']['windows']['extras']            = []
+
+default['apache']['windows']['conf_dir_include'] = false

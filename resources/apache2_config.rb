@@ -9,6 +9,8 @@ property :variables, Hash, default: {}
 action :create do
   directory new_resource.conf_dir
 
+  node.default['apache']['windows']['conf_dir_include'] = true
+
   template "#{new_resource.conf_dir}/#{new_resource.config_name}.conf" do
     variables(new_resource.variables)
     source new_resource.source
