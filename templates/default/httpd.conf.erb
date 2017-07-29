@@ -443,6 +443,10 @@ SSLRandomSeed startup builtin
 SSLRandomSeed connect builtin
 </IfModule>
 
-<% conf_array.each do |conf| %>
+<% conf_dir = node['apache']['windows']['conf_dir'] %>
+<% if ::File.directory?(conf_dir) %>
+<% more_conf = Dir.chdir(conf_dir){Dir["*.conf"]}.sort %>
+<% more_conf.each do |conf| %>
 Include '<%= conf_dir %>/<%= conf %>'
+<% end %>
 <% end %>

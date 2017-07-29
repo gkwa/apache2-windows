@@ -21,14 +21,6 @@
 
 module ApacheWindows
   class Helper
-    def self.get_conf_list(directory)
-      if !::File.directory?(directory)
-        []
-      else
-        Dir["#{directory}/*.conf"].sort
-      end
-    end
-
     def self.uniquely_add_array(source, target)
       case target
       when Array

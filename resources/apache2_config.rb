@@ -5,7 +5,6 @@ property :conf_dir, String, required: true, default: node['apache']['windows']['
 property :cookbook, String
 property :source, String
 property :variables, Hash, default: {}
-property :conf_array, Array, default: []
 
 action :create do
   directory new_resource.conf_dir
@@ -15,14 +14,6 @@ action :create do
     source new_resource.source
     cookbook new_resource.cookbook
     action :create
-    notifies :create, "template[#{node['apache']['windows']['conf']}]", :immediately
-  end
-
-  ruby_block "Update #{new_resource.conf_dir}/#{new_resource.config_name}.conf" do
-    block do
-      conf_array << ApacheWindows::Helper.get_conf_list(new_resource.conf_dir)
-    end
-    action :run
     notifies :create, "template[#{node['apache']['windows']['conf']}]", :immediately
   end
 end
