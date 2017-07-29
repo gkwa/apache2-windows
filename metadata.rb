@@ -11,3 +11,5 @@ supports         'windows'
 source_url       'https://github.com/chef-cookbooks/apache2-windows'
 issues_url       'https://github.com/chef-cookbooks/apache2-windows/issues'
 chef_version     '>= 12.6' if respond_to?(:chef_version)
+
+depends 'vcruntime'

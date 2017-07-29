@@ -19,28 +19,54 @@
 
 require 'chef/exceptions'
 
+include_recipe 'vcruntime::vc14'
+
 unless node['platform_family'] == 'windows'
   raise Chef::Exceptions::Application, 'This cookbook only works on Microsoft Windows.'
 end
 
-package node['apache']['windows']['display_name'] do
+zipfile = ::File.join(Chef::Config[:file_cache_path], node['apache']['windows']['package_name'])
+
+remote_file zipfile do
   source node['apache']['windows']['source']
-  # The latter four of these options are just to keep the Apache2 service
-  # from failing before rendering the actual httpd.conf.
-  options %W(
-    /quiet
-    INSTALLDIR="#{node['apache']['windows']['dir']}"
-    ALLUSERS=1
-    SERVERADMIN=#{node['apache']['windows']['serveradmin']}
-    SERVERDOMAIN=#{node['fqdn']}
-    SERVERNAME=#{node['fqdn']}
-  ).join(' ')
+end
+
+powershell_script "Download and extract #{node['apache']['windows']['package_name']}" do
+  code <<-EOH
+  $subdir = [System.Guid]::NewGuid()
+  $outpath="$env:temp\\$subdir"
+  Add-Type -assemblyname System.IO.Compression.FileSystem
+  [System.IO.Compression.ZipFile]::ExtractToDirectory("#{zipfile}", $outpath)
+  $verconcat = #{node['apache']['windows']['version'].split('.')[0..1].join('')}
+  # copy Apache24/* to installdir
+  Copy-Item -Recurse "$outpath/Apache$verconcat" "#{node['apache']['windows']['dir']}"
+  EOH
+  not_if do
+    httpd_path = "#{node['apache']['windows']['bin_dir']}/httpd.exe".tr('\\', '/')
+    if !::File.exist?(httpd_path)
+      false
+    else
+      cmd = shell_out("\"#{httpd_path}\" -version")
+      current = %r{Server version: Apache/((\d+\.)?(\d+\.)?(\*|\d+))}.match(cmd.stdout)[1]
+      node['apache']['windows']['version'] == current
+    end
+  end
 end
 
 template node['apache']['windows']['conf'] do
   source 'httpd.conf.erb'
   action :create
   notifies :restart, 'service[apache2]'
+end
+
+powershell_script "Install Apache service" do
+  code <<-EOH
+  & "#{node['apache']['windows']['bin_dir']}\\httpd.exe" -k install -n "Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
+  # install service is success message is sent to stderr
+  if ($error[0] | Select-String 'service is successfully installed') {
+        $error.removeAt(0)
+  }
+  EOH
 end
 
 node['apache']['windows']['extras'].each do |extra|

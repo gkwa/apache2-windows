@@ -1,9 +1,9 @@
 #
 # This is the main Apache HTTP server configuration file.  It contains the
 # configuration directives that give the server its instructions.
-# See <URL:http://httpd.apache.org/docs/2.2> for detailed information.
+# See <URL:http://httpd.apache.org/docs/2.4/> for detailed information.
 # In particular, see 
-# <URL:http://httpd.apache.org/docs/2.2/mod/directives.html>
+# <URL:http://httpd.apache.org/docs/2.4/mod/directives.html>
 # for a discussion of each configuration directive.
 #
 # Do NOT simply read the instructions in here without understanding
@@ -13,10 +13,10 @@
 # Configuration and logfile names: If the filenames you specify for many
 # of the server's control files begin with "/" (or "drive:/" for Win32), the
 # server will use that explicit path.  If the filenames do *not* begin
-# with "/", the value of ServerRoot is prepended -- so 'log/access_log'
-# with ServerRoot set to '/www' will be interpreted by the
-# server as '/www/log/access_log', where as '/log/access_log' will be
-# interpreted as '/log/access_log'.
+# with "/", the value of ServerRoot is prepended -- so "logs/access_log"
+# with ServerRoot set to "/usr/local/apache2" will be interpreted by the
+# server as "/usr/local/apache2/logs/access_log", whereas "/logs/access_log"
+# will be interpreted as '/logs/access_log'.
 #
 # NOTE: Where filenames are specified, you must use forward slashes
 # instead of backslashes (e.g., "c:/apache" instead of "c:\apache").
@@ -29,11 +29,22 @@
 # configuration, error, and log files are kept.
 #
 # Do not add a slash at the end of the directory path.  If you point
-# ServerRoot at a non-local disk, be sure to point the LockFile directive
-# at a local disk.  If you wish to share the same ServerRoot for multiple
-# httpd daemons, you will need to change at least LockFile and PidFile.
+# ServerRoot at a non-local disk, be sure to specify a local disk on the
+# Mutex directive, if file-based mutexes are used.  If you wish to share the
+# same ServerRoot for multiple httpd daemons, you will need to change at
+# least PidFile.
 #
 ServerRoot "<%= node['apache']['windows']['dir'] %>"
+
+#
+# Mutex: Allows you to set the mutex mechanism and mutex file directory
+# for individual mutexes, or change the global defaults
+#
+# Uncomment and change the directory if mutexes are file-based and the default
+# mutex file directory is not on a local disk or is not appropriate for some
+# other reason.
+#
+# Mutex default:logs
 
 #
 # Listen: Allows you to bind Apache to specific IP addresses and/or
@@ -66,8 +77,7 @@ Listen <%= address.length > 0 ? "#{address}:" : '' %><%= port %>
 LoadModule <%= mod %>_module modules/mod_<%= mod %>.so
 <% end -%>
 
-<IfModule !mpm_netware_module>
-<IfModule !mpm_winnt_module>
+<IfModule unixd_module>
 #
 # If you wish httpd to run as a different user or group, you must run
 # httpd as root initially and it will switch.  
@@ -79,7 +89,6 @@ LoadModule <%= mod %>_module modules/mod_<%= mod %>.so
 User <%= node['apache']['windows']['user'] %>
 Group <%= node['apache']['windows']['group'] %>
 
-</IfModule>
 </IfModule>
 
 # 'Main' server configuration
@@ -99,7 +108,7 @@ Group <%= node['apache']['windows']['group'] %>
 # e-mailed.  This address appears on some server-generated pages, such
 # as error documents.  e.g. admin@your-domain.com
 #
-ServerAdmin <%= node['apache']['windows']['serveradmin'] %>
+ServerAdmin <%= node['apache']['windows']['serveradmin'] %>@<%= node['fqdn'] %>
 
 #
 # ServerName gives the name and port that the server uses to identify itself.
@@ -108,28 +117,22 @@ ServerAdmin <%= node['apache']['windows']['serveradmin'] %>
 #
 # If your host doesn't have a registered DNS name, enter its IP address here.
 #
-#ServerName WIN-GDADAL58090.compute-1.internal:80
-
 #
 # DocumentRoot: The directory out of which you will serve your
 # documents. By default, all requests are taken from this directory, but
 # symbolic links and aliases may be used to point to other locations.
 #
 DocumentRoot "<%= node['apache']['windows']['docroot_dir'] %>"
+ServerName <%= node['fqdn'] %>:80
 
 #
-# Each directory to which Apache has access can be configured with respect
-# to which services and features are allowed and/or disabled in that
-# directory (and its subdirectories). 
-#
-# First, we configure the "default" to be a very restrictive set of 
-# features.  
+# Deny access to the entirety of your server's filesystem. You must
+# explicitly permit access to web content directories in other
+# <Directory> blocks below.
 #
 <Directory />
-    Options FollowSymLinks
-    AllowOverride None
-    Order deny,allow
-    Deny from all
+    AllowOverride none
+    Require all denied
 </Directory>
 
 #
@@ -140,7 +143,9 @@ DocumentRoot "<%= node['apache']['windows']['docroot_dir'] %>"
 #
 
 #
-# This should be changed to whatever you set DocumentRoot to.
+# DocumentRoot: The directory out of which you will serve your
+# documents. By default, all requests are taken from this directory, but
+# symbolic links and aliases may be used to point to other locations.
 #
 <Directory "<%= node['apache']['windows']['docroot_dir'] %>">
     #
@@ -152,7 +157,7 @@ DocumentRoot "<%= node['apache']['windows']['docroot_dir'] %>"
     # doesn't give it to you.
     #
     # The Options directive is both complicated and important.  Please see
-    # http://httpd.apache.org/docs/2.2/mod/core.html#options
+    # http://httpd.apache.org/docs/2.4/mod/core.html#options
     # for more information.
     #
     Options Indexes FollowSymLinks
@@ -160,16 +165,14 @@ DocumentRoot "<%= node['apache']['windows']['docroot_dir'] %>"
     #
     # AllowOverride controls what directives may be placed in .htaccess files.
     # It can be "All", "None", or any combination of the keywords:
-    #   Options FileInfo AuthConfig Limit
+    #   AllowOverride FileInfo AuthConfig Limit
     #
     AllowOverride None
 
     #
     # Controls who can get stuff from this server.
     #
-    Order allow,deny
-    Allow from all
-
+    Require all granted
 </Directory>
 
 #
@@ -184,11 +187,9 @@ DocumentRoot "<%= node['apache']['windows']['docroot_dir'] %>"
 # The following lines prevent .htaccess and .htpasswd files from being 
 # viewed by Web clients. 
 #
-<FilesMatch "^\.ht">
-    Order allow,deny
-    Deny from all
-    Satisfy All
-</FilesMatch>
+<Files ".ht*">
+    Require all denied
+</Files>
 
 #
 # ErrorLog: The location of the error log file.
@@ -241,7 +242,7 @@ LogLevel warn
     # exist in your server's namespace, but do not anymore. The client 
     # will make a new request for the document at its new location.
     # Example:
-    # Redirect permanent /foo http://WIN-GDADAL58090.compute-1.internal/bar
+    # Redirect permanent /foo http://<%= node['fqdn'] %>/bar
 
     #
     # Alias: Maps web paths into filesystem paths and is used to
@@ -271,30 +272,27 @@ LogLevel warn
     # ScriptSock: On threaded servers, designate the path to the UNIX
     # socket used to communicate with the CGI daemon of mod_cgid.
     #
-    #Scriptsock logs/cgisock
+    #Scriptsock cgisock
 </IfModule>
 
 #
-# "C:/Program Files (x86)/Apache Software Foundation/Apache2.2/cgi-bin" should be changed to whatever your ScriptAliased
+# "c:/Apache24/cgi-bin" should be changed to whatever your ScriptAliased
 # CGI directory exists, if you have that configured.
 #
 <Directory "<%= node['apache']['windows']['cgibin_dir'] %>/">
     AllowOverride None
     Options None
-    Order allow,deny
-    Allow from all
+    Require all granted
 </Directory>
 
+<IfModule headers_module>
 #
-# DefaultType: the default MIME type the server will use for a document
-# if it cannot otherwise determine one, such as from filename extensions.
-# If your server contains mostly text or HTML documents, "text/plain" is
-# a good value.  If most of your content is binary, such as applications
-# or images, you may want to use "application/octet-stream" instead to
-# keep browsers from trying to display binary files as though they are
-# text.
+    # Avoid passing HTTP_PROXY environment to CGI's on this or any proxied
+    # backend servers which have lingering "httpoxy" defects.
+    # 'Proxy' request header is undefined by the IETF, not listed by IANA
 #
-DefaultType text/plain
+    RequestHeader unset Proxy early
+</IfModule>
 
 <IfModule mime_module>
     #
@@ -371,14 +369,15 @@ DefaultType text/plain
 
 #
 # EnableMMAP and EnableSendfile: On systems that support it, 
-# memory-mapping or the sendfile syscall is used to deliver
+# memory-mapping or the sendfile syscall may be used to deliver
 # files.  This usually improves server performance, but must
 # be turned off when serving from networked-mounted 
 # filesystems or if support for these functions is otherwise
 # broken on your system.
+# Defaults: EnableMMAP On, EnableSendfile Off
 #
 #EnableMMAP off
-#EnableSendfile off
+#EnableSendfile on
 
 # Supplemental configuration
 #
@@ -434,6 +433,10 @@ Include conf/extra/httpd-manual.conf
 # Various default settings
 Include conf/extra/httpd-default.conf
 <% end -%>
+# Configure mod_proxy_html to understand HTML4/XHTML1
+<IfModule proxy_html_module>
+Include conf/extra/proxy-html.conf
+</IfModule>
 
 <% if node['apache']['windows']['extras'].include?('ssl') -%>
 # Secure (SSL/TLS) connections
