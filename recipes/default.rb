@@ -25,21 +25,25 @@ unless node['platform_family'] == 'windows'
   raise Chef::Exceptions::Application, 'This cookbook only works on Microsoft Windows.'
 end
 
-zipfile = ::File.join(Chef::Config[:file_cache_path], node['apache']['windows']['package_name'])
+zipfile_path = ::File.join(Chef::Config[:file_cache_path], node['apache']['windows']['package_name'])
+install_script = "install_apache2_#{node['apache']['windows']['x86_override'] ? 'x86' : 'x64'}.ps1"
 
-remote_file zipfile do
+remote_file zipfile_path do
   source node['apache']['windows']['source']
 end
 
-powershell_script "Extract and install #{node['apache']['windows']['package_name']}" do
-  code <<-EOH
-  $outpath = [io.path]::GetFileNameWithoutExtension("#{zipfile}")
-  Add-Type -assemblyname System.IO.Compression.FileSystem
-  [System.IO.Compression.ZipFile]::ExtractToDirectory("#{zipfile}", $outpath)
-  $verconcat = #{node['apache']['windows']['version'].split('.')[0..1].join('')}
-  # copy Apache24/* to installdir
-  Copy-Item -Recurse "$outpath/Apache$verconcat" "#{node['apache']['windows']['dir']}"
-  EOH
+template "#{ENV['TEMP']}\\#{install_script}" do
+  source 'install.ps1.erb'
+  variables(
+    service: node['apache']['windows']['service'],
+    zip_subdir: "Apache#{node['apache']['windows']['version'].split('.')[0..1].join('')}",
+    zipfile_path: zipfile_path,
+    install_dir: node['apache']['windows']['dir']
+  )
+end
+
+execute "Extract and install #{node['apache']['windows']['package_name']}" do
+  command "powershell -InputFormat None -ExecutionPolicy Bypass -File \"#{ENV['TEMP']}\\#{install_script}\""
   not_if do
     httpd_path = "#{node['apache']['windows']['bin_dir']}/httpd.exe".tr('\\', '/')
     if !::File.exist?(httpd_path)

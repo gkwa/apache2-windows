@@ -1,0 +1,21 @@
+if (Get-Service '<%= @service %>' -ErrorAction 'SilentlyContinue')
+{
+  Stop-Service '<%= @service %>'
+  (Get-WmiObject -Class Win32_Service -filter "Name='<%= @service %>'").delete()
+}
+
+$basedir = Split-Path -Parent "<%= @zipfile_path %>"
+$d = [io.path]::GetFileNameWithoutExtension("<%= @zipfile_path %>")
+$stage = Join-Path $basedir $d
+
+if(Test-Path($stage)){
+  Remove-Item -Force -Recurse $stage
+}
+
+Add-Type -assemblyname System.IO.Compression.FileSystem
+[System.IO.Compression.ZipFile]::ExtractToDirectory("<%= @zipfile_path %>", $stage)
+
+# copy .../Apache24/* to installdir
+$source = Join-Path $stage "<%= @zip_subdir %>"
+New-Item -ItemType Directory -Force -Path "<%= @install_dir %>"
+Copy-Item -Force -Recurse "$source\*" "<%= @install_dir %>"
