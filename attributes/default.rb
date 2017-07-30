@@ -17,6 +17,27 @@
 # limitations under the License.
 #
 
+default['apache']['windows']['vc15']['x86']['2.4.27']['url']       = 'https://www.apachelounge.com/download/VC15/binaries/httpd-2.4.27-Win32-VC15.zip'
+default['apache']['windows']['vc15']['x86']['2.4.27']['sha256sum'] = '7ba98a25964b27bca693699f9b563b6de1c7b79525f76befcbec327331b8c6b7'
+default['apache']['windows']['vc15']['x86']['2.4.27']['name']      = ''
+default['apache']['windows']['vc15']['x64']['2.4.27']['url']       = 'https://www.apachelounge.com/download/VC15/binaries/httpd-2.4.27-Win64-VC15.zip'
+default['apache']['windows']['vc15']['x64']['2.4.27']['sha256sum'] = '6d827bf08bc73c45f2471794b75d7a70907a5274a4515285e5b62774331539fc'
+default['apache']['windows']['vc15']['x64']['2.4.27']['name']      = ''
+
+default['apache']['windows']['vc14']['x86']['2.4.27']['url']       = 'https://www.apachelounge.com/download/VC14/binaries/httpd-2.4.27-Win32-VC14.zip'
+default['apache']['windows']['vc14']['x86']['2.4.27']['sha256sum'] = '200a26d83c1494657e80fe4a1f513dd20430122ef9d4ce0920b87916575b1704'
+default['apache']['windows']['vc14']['x86']['2.4.27']['name']      = ''
+default['apache']['windows']['vc14']['x64']['2.4.27']['url']       = 'https://www.apachelounge.com/download/VC14/binaries/httpd-2.4.27-Win64-VC14.zip'
+default['apache']['windows']['vc14']['x64']['2.4.27']['sha256sum'] = '24475fa957495f5d9847b941349e4a416b8175540041bb1649c453ee07a8a15c'
+default['apache']['windows']['vc14']['x64']['2.4.27']['name']      = ''
+
+default['apache']['windows']['vc11']['x86']['2.4.27']['url']       = 'https://www.apachelounge.com/download/VC11/binaries/httpd-2.4.27-Win32-VC11.zip'
+default['apache']['windows']['vc11']['x86']['2.4.27']['sha256sum'] = '841666178fdadfba5f3a80320cab512c83cf6aba2190fcd7102a795f8df4163a'
+default['apache']['windows']['vc11']['x86']['2.4.27']['name']      = ''
+default['apache']['windows']['vc11']['x64']['2.4.27']['url']       = 'https://www.apachelounge.com/download/VC11/binaries/httpd-2.4.27-Win64-VC11.zip'
+default['apache']['windows']['vc11']['x64']['2.4.27']['sha256sum'] = '0a3a6843bdf9dc3dd13f0cc9c0f8f43518675a066c23d5de4cee0ab2c50c1feb'
+default['apache']['windows']['vc11']['x64']['2.4.27']['name']      = ''
+
 default['apache']['windows']['version']         = '2.4.27'
 default['apache']['windows']['x86_override']    = false # if true, then i want 32bit apache on 64bit machine
 default['apache']['windows']['dir']             = "#{ENV['PROGRAMFILES']}/Apache Software Foundation/Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
