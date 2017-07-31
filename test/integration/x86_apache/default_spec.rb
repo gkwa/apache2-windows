@@ -8,6 +8,18 @@ describe command('cmd /c "c:\Program Files (x86)\Apache Software Foundation\Apac
   its('stdout') { should match %r{Server version: Apache/2.4.27 \(Win32\)} }
 end
 
+describe file('c:\Program Files (x86)\Apache Software Foundation\Apache2.4\ssl\server.crt') do
+  it { should exist }
+  its('content') { should match(/--BEGIN CERTIFICATE--/) }
+  its('content') { should match(/--END CERTIFICATE--/) }
+end
+
+describe file('c:\Program Files (x86)\Apache Software Foundation\Apache2.4\ssl\server.key') do
+  it { should exist }
+  its('content') { should match(/--BEGIN PRIVATE KEY--/) }
+  its('content') { should match(/--END PRIVATE KEY--/) }
+end
+
 describe http('http://localhost') do
   its('status') { should eq 200 }
   its('body') { should match(/It works!/) }
