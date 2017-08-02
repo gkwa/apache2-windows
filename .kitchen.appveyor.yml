@@ -21,6 +21,10 @@ suites:
   - name: apache2_config
     run_list:
       - recipe[test::apache2_config]
+    attributes:
+      apache:
+        windows:
+          conf_dir_include: true
   - name: 64bit_apache
     run_list:
       - recipe[test::default]
