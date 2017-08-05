@@ -21,6 +21,8 @@ require 'chef/exceptions'
 
 include_recipe 'vcruntime::vc14'
 
+include_recipe 'perl::default'
+
 unless node['platform_family'] == 'windows'
   raise Chef::Exceptions::Application, 'This cookbook only works on Microsoft Windows.'
 end

@@ -29,6 +29,10 @@ suites:
     run_list:
       - recipe[test::default]
     attributes:
+      perl:
+        maj_version: 5
+        min_version: 26
+        sub_version: 0.1
       apache:
         windows:
           x86_override: false
