@@ -43,6 +43,7 @@ if (! $env_file) {
         $env_file = "$ENV{APACHE_CONFDIR}/envvars";
     }
     else {
+        # TODO
         $env_file = "/etc/apache2$dir_suffix/envvars";
     }
 }
@@ -70,6 +71,7 @@ else {
 }
 $name = ucfirst($obj);
 
+# TODO
 my $confdir = $ENV{APACHE_CONFDIR} || "/etc/apache2$dir_suffix";
 my $availdir = $ENV{ uc("APACHE_${dir}_AVAILABLE") }
     || "$confdir/$dir-available";
@@ -144,6 +146,7 @@ sub doit {
 
     my ( $conftgt, $conflink );
     if ( $obj eq 'module' ) {
+        # TODO
         if ( $act eq 'enable' && $acton eq 'cgi' && threaded() ) {
             print
                 "Your MPM seems to be threaded. Selecting cgid instead of cgi.\n";
@@ -346,6 +349,7 @@ sub do_deps {
 
 sub warn_deps {
     my $acton = shift;
+    # TODO
     my $modsenabldir = $ENV{APACHE_MODS_ENABLED} || "$confdir/mods-enabled";
     foreach my $d (@_) {
         info("Checking dependency $d for $acton:\n");
@@ -435,6 +439,7 @@ sub remove_link {
 
 sub threaded {
     my $result = "";
+    # TODO
     $result = qx{/usr/sbin/apache2ctl -V | grep 'threaded'}
         if -x '/usr/sbin/apache2ctl';
     if ( $? != 0 ) {
@@ -463,6 +468,7 @@ sub threaded {
         return 1;
     }
     else {
+        # TODO
         die("Can't parse output from apache2ctl -V:\n$result\n");
     }
 }
@@ -491,6 +497,7 @@ sub read_env_file {
     my $file = shift;
 
     -r $file or return;
+    # TODO
     my @lines = qx{env - sh -c '. $file && env'};
     if ($?) {
         die "Could not read $file\n";
@@ -524,6 +531,7 @@ sub switch_marker {
     }
 
     # XXX: swap find with perl alternative
+    # TODO
     my @markers = qx{find "$statedir" -type f -a -name "$name"};
     chomp(@markers);
     foreach (@markers) {
@@ -565,6 +573,7 @@ sub special_module_handling {
     given ($acton) {
         when ('ssl') {
             if ( $act eq 'enable' ) {
+                # TODO
                 info(  "See /usr/share/doc/apache2/README.Debian.gz on "
                      . "how to configure SSL and create self-signed "
                      . "certificates.\n"
@@ -578,12 +587,14 @@ sub special_module_handling {
             info("$verb external service $htc\n");
             # The init script has no Default-Start runlevels, so we need to
             # specify them explicitly.
+            # TODO
             system("update-rc.d $htc $act 2 3 4 5");
             if ($rc == 0) {
                 info("The service will be started on next reboot.\n")
                     if $act eq 'enable';
             }
             else {
+                # TODO
                 warning("update-rc.d failed\n");
             }
 
