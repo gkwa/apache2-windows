@@ -1,3 +1,5 @@
+image: Previous Visual Studio 2015
+
 environment:
   machine_user: vagrant
   machine_pass: vagrant
