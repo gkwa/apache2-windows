@@ -17,6 +17,13 @@
 # limitations under the License.
 #
 
+default['apache']['windows']['vc15']['x86']['2.4.28']['url']       = 'https://www.apachelounge.com/download/VC15/binaries/httpd-2.4.28-Win32-VC15.zip'
+default['apache']['windows']['vc15']['x86']['2.4.28']['sha256sum'] = '018dfa256264ef0455f06c9d146bac93006d694f9e3d1bf2c3e267cda250c7ff'
+default['apache']['windows']['vc15']['x86']['2.4.28']['name']      = ''
+default['apache']['windows']['vc15']['x64']['2.4.28']['url']       = 'https://www.apachelounge.com/download/VC15/binaries/httpd-2.4.28-Win64-VC15.zip'
+default['apache']['windows']['vc15']['x64']['2.4.28']['sha256sum'] = 'b71fdf3a1595ab0c4f4daea87a2d664f8f4f8d09b34a5e0955b6abb196aba730'
+default['apache']['windows']['vc14']['x64']['2.4.28']['name']      = ''
+
 default['apache']['windows']['vc15']['x86']['2.4.27']['url']       = 'https://www.apachelounge.com/download/VC15/binaries/httpd-2.4.27-Win32-VC15.zip'
 default['apache']['windows']['vc15']['x86']['2.4.27']['sha256sum'] = '7ba98a25964b27bca693699f9b563b6de1c7b79525f76befcbec327331b8c6b7'
 default['apache']['windows']['vc15']['x86']['2.4.27']['name']      = ''
@@ -38,7 +45,7 @@ default['apache']['windows']['vc11']['x64']['2.4.27']['url']       = 'https://ww
 default['apache']['windows']['vc11']['x64']['2.4.27']['sha256sum'] = '0a3a6843bdf9dc3dd13f0cc9c0f8f43518675a066c23d5de4cee0ab2c50c1feb'
 default['apache']['windows']['vc11']['x64']['2.4.27']['name']      = ''
 
-default['apache']['windows']['version']         = '2.4.27'
+default['apache']['windows']['version']         = '2.4.28'
 default['apache']['windows']['x86_override']    = false # if true, then i want 32bit apache on 64bit machine
 default['apache']['windows']['dir']             = "#{ENV['PROGRAMFILES']}/Apache Software Foundation/Apache#{node['apache']['windows']['version'].split('.')[0..1].join('.')}"
 default['apache']['windows']['package_name']    = "httpd-#{node['apache']['windows']['version']}-Win32-VC14.zip"
