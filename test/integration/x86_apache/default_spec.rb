@@ -4,8 +4,8 @@ end
 
 describe command('cmd /c "c:\Program Files (x86)\Apache Software Foundation\Apache2.4\bin\httpd.exe" -v') do
   its('exit_status') { should eq 0 }
-  its('stdout') { should match %r{Server version: Apache/2.4.28} }
-  its('stdout') { should match %r{Server version: Apache/2.4.28 \(Win32\)} }
+  its('stdout') { should match %r{Server version: Apache/2.4.29} }
+  its('stdout') { should match %r{Server version: Apache/2.4.29 \(Win32\)} }
 end
 
 describe file('c:\Program Files (x86)\Apache Software Foundation\Apache2.4\ssl\server.crt') do
